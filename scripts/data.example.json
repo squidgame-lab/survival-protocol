@@ -1,0 +1,50 @@
+{
+	"devWallet": {
+		"address": "0xde51312CdF679e042B41dC8dd5F00984d0f5bbE2",
+		"constructorArgs": [],
+		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": true,
+		"upgraded": true,
+		"verified": false
+	},
+	"TestToken": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	},
+	"GameToken": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	},
+	"GameConfig": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	},
+	"GameTicket": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [
+			"${TestToken.address}",
+			"1000000000000000000"
+		],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	}
+}

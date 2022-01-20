@@ -1,0 +1,10 @@
+[
+    {
+        "call": true,
+        "name": "GameToken",
+        "functionName": "increaseFunds",
+        "contractName": "GameToken",
+        "contractAddr": "",
+        "args": []
+    }
+]

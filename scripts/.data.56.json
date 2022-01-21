@@ -1,0 +1,34 @@
+{
+  "devWallet": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
+  "GameToken": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": false
+  },
+  "Survival": {
+    "address": "0x1180C484f55024C5Ce1765101f4efaC1e7A3F6d4",
+    "constructorArgs": [],
+    "upgradeArgs": [
+      "Survival",
+      "SURV",
+      "18",
+      "10000000000000000000000000000"
+    ],
+    "upgradedAddress": "0x0669a603220c5B15d8880b03DAFa85165353B3fa",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  }
+}

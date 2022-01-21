@@ -10,7 +10,7 @@ contract Survival is ERC20Token, Initializable {
     address public admin;
     address public team;
     uint public teamRate;
-    uint public constant maxTotalSupply = 100_0000_0000;
+    uint public maxTotalSupply;
     mapping (address => uint) public funds;
     
     event OwnerChanged(address indexed _user, address indexed _old, address indexed _new);
@@ -35,10 +35,11 @@ contract Survival is ERC20Token, Initializable {
         _;
     }
 
-    function initialize() external initializer {
-        decimals = 18;
-        name = 'survival';
-        symbol = 'surv';
+    function initialize(string memory _name, string memory _symbol, uint8 _decimals, uint256 _maxTotalSupply) external initializer {
+        decimals = _decimals;
+        name = _name;
+        symbol = _symbol;
+        maxTotalSupply = _maxTotalSupply;
         owner = msg.sender;
         admin = msg.sender;
         team = msg.sender;

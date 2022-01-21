@@ -20,7 +20,12 @@
 	"Survival": {
 		"address": "",
 		"constructorArgs": [],
-		"upgradeArgs": [],
+		"upgradeArgs": [
+			"survival",
+			"surv",
+			"18",
+			"10000000000000000000000000000"
+		],
 		"upgradedAddress": "",
 		"deployed": false,
 		"upgraded": false,

@@ -1,10 +1,14 @@
 [
     {
         "call": true,
-        "name": "GameToken",
+        "called": false,
+        "name": "Survival",
         "functionName": "increaseFunds",
-        "contractName": "GameToken",
+        "contractName": "Survival",
         "contractAddr": "",
-        "args": []
+        "args": [
+            ["${devWallet.address}", "${TokenExchange.address}"],
+            ["100000000000000000000000000", "100000000000000000000000000"]
+        ]
     }
 ]

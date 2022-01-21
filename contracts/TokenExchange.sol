@@ -10,6 +10,7 @@ import './modules/Initializable.sol';
 import './interfaces/IShareToken.sol';
 import './interfaces/IERC20.sol';
 
+import 'hardhat/console.sol';
 
 contract TokenExchange is Configable, ReentrancyGuard, Initializable {
     using SafeMath for uint256;
@@ -84,12 +85,14 @@ contract TokenExchange is Configable, ReentrancyGuard, Initializable {
     }
 
     function getPendingAmount(address _account) public view returns (uint256 _amount) {
-        _amount = _getLockPendingAmount(_account).mul(exchangeRate).div(18);
+        _amount = _getLockPendingAmount(_account).mul(exchangeRate).div(1e18);
     }
 
-    function getLockInfo(address _account) external view returns (uint256 lockedAmount, uint256 pendingAmount) {
+    function getLockInfo(address _account) external view returns (uint256 lockedAmount, uint256 accReleasedPerBlock, uint256 debt, uint256 pendingAmount) {
         return (
             userLocked[_account].lockedAmount,
+            userLocked[_account].accReleasedPerBlock,
+            userLocked[_account].debt,
             getPendingAmount(_account)
         );
     } 
@@ -104,13 +107,13 @@ contract TokenExchange is Configable, ReentrancyGuard, Initializable {
 
     function _claim(address _account) internal returns (uint256 pendingAmount) {
         uint256 lockPendingAmount = _getLockPendingAmount(_account);
-        pendingAmount = lockPendingAmount.mul(exchangeRate).div(18);
+        pendingAmount = lockPendingAmount.mul(exchangeRate).div(1e18);
         if (pendingAmount == 0) return pendingAmount;
         IShareToken(releaseToken).mint(_account, pendingAmount);
         userLocked[_account].debt = userLocked[_account].debt.add(lockPendingAmount);
     }
 
-    function _getLockPendingAmount(address _account) public view returns (uint256 _amount) {
+    function _getLockPendingAmount(address _account) internal view returns (uint256 _amount) {
         Lock memory lockInfo = userLocked[_account];
         if (block.number > lockInfo.startBlockNum.add(duration)) {
             return lockInfo.lockedAmount.sub(lockInfo.debt);

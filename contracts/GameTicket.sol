@@ -28,7 +28,7 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
     event Joined(address indexed _user);
     event FeeRateChanged(uint indexed _old, uint indexed _new);
     event RewardPoolChanged(address indexed _old, address indexed _new);
-    event Bought(address indexed _from, address indexed _to, uint buyValue, uint burnValue);
+    event Bought(address indexed _from, address indexed _to, uint _amount);
 
     receive() external payable {
     }
@@ -75,45 +75,44 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
         return true;
     }
 
-    function _buy(address _to, uint _buyTokenAmount, uint _gameTokenAmount) internal returns (bool) {
-        require(_buyTokenAmount > 0, 'GameTicket: ZERO');
-        require(_buyTokenAmount % unit == 0, 'GameTicket: REMAINDER');
-        tickets[_to] = tickets[_to].add(_buyTokenAmount);
-        total = total.add(_buyTokenAmount);
-        emit Bought(msg.sender, _to, _buyTokenAmount, _gameTokenAmount);
+    function _buy(address _to, uint _amount) internal returns (bool) {
+        require(_amount > 0, 'GameTicket: ZERO');
+        tickets[_to] = tickets[_to].add(_amount);
+        total = total.add(_amount);
+        emit Bought(msg.sender, _to, _amount);
         return true;
     }
 
-    function buy(uint _value, address _to) external payable nonReentrant whenNotPaused returns (bool) {
-        if (buyToken == address(0)) {
-            require(_value == msg.value, 'GameTicket: INVALID_VALUE');
-        } else {
-            require(IERC20(buyToken).balanceOf(msg.sender) >= _value, 'GameTicket: INSUFFICIENT_BALANCE');
-            TransferHelper.safeTransferFrom(buyToken, msg.sender, address(this), _value);
+    function buy(address _to, uint _amount) external payable nonReentrant whenNotPaused returns (bool) {
+        if (unit > 0) {
+            if (buyToken == address(0)) {
+                require(unit.mul(_amount) == msg.value, 'GameTicket: INVALID_VALUE');
+            } else {
+                require(IERC20(buyToken).balanceOf(msg.sender) >= unit.mul(_amount), 'GameTicket: INSUFFICIENT_BALANCE');
+                TransferHelper.safeTransferFrom(buyToken, msg.sender, address(this), unit.mul(_amount));
+            }
         }
 
-        uint _gameTokenAmount;
-        if(unit > 0 && gameTokenUnit > 0) {
-            _gameTokenAmount = _value.div(unit).mul(gameTokenUnit);
-            require(IERC20(gameToken).balanceOf(msg.sender) >= _gameTokenAmount, 'GameTicket: GAME_TOKEN_INSUFFICIENT_BALANCE');
-            TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), _gameTokenAmount);
+        if (gameTokenUnit > 0) {
+            require(IERC20(gameToken).balanceOf(msg.sender) >= gameTokenUnit.mul(_amount), 'GameTicket: GAME_TOKEN_INSUFFICIENT_BALANCE');
+            TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), gameTokenUnit.mul(_amount));
         }
-        return _buy(_to, _value, _gameTokenAmount);
+
+        return _buy(_to, _amount);
     }
 
-    function buyBatch(uint[] calldata _values, address[] calldata _tos) external payable nonReentrant whenNotPaused returns (bool) {
-        require(_values.length == _tos.length, 'GameTicket: INVALID_PARAM');
+    function buyBatch(address[] calldata _tos, uint[] calldata _amounts) external payable nonReentrant whenNotPaused returns (bool) {
+        require(_tos.length == _amounts.length, 'GameTicket: INVALID_PARAM');
+
         uint _buyTokenTotal;
         uint _gameTokenTotal;
-        for(uint i; i<_values.length; i++) {
-            _buyTokenTotal = _buyTokenTotal.add(_values[i]);
-            uint _gameTokenAmount;
-            if(unit > 0 && gameTokenUnit > 0) {
-                _gameTokenAmount = _values[i].div(unit).mul(gameTokenUnit);
-                _gameTokenTotal = _gameTokenTotal.add(_gameTokenAmount);
-            }
-            _buy(_tos[i], _values[i], _gameTokenAmount);
+
+        for(uint i; i < _amounts.length; i++) {
+            if (unit > 0) _buyTokenTotal = _buyTokenTotal.add(_amounts[i].mul(unit));
+            if (gameTokenUnit > 0) _gameTokenTotal = _gameTokenTotal.add(_amounts[i].mul(gameTokenUnit));
+            _buy(_tos[i], _amounts[i]);
         }
+
         if (buyToken == address(0)) {
             require(_buyTokenTotal == msg.value, 'GameTicket: INVALID_TOTALVALUE');
         } else {
@@ -125,6 +124,7 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
             require(IERC20(gameToken).balanceOf(msg.sender) >= _gameTokenTotal, 'GameTicket: GAME_TOKEN_INSUFFICIENT_BALANCE');
             TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), _gameTokenTotal);
         }
+
         return true;
     }
 

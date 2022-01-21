@@ -1,14 +1,14 @@
 {
 	"devWallet": {
-		"address": "0xde51312CdF679e042B41dC8dd5F00984d0f5bbE2",
+		"address": "",
 		"constructorArgs": [],
 		"upgradeArgs": [],
 		"upgradedAddress": "",
 		"deployed": true,
 		"upgraded": true,
-		"verified": false
+		"verified": true
 	},
-	"TestToken": {
+    "GameToken": {
 		"address": "",
 		"constructorArgs": [],
 		"upgradeArgs": [],
@@ -17,10 +17,25 @@
 		"upgraded": false,
 		"verified": false
 	},
-	"GameToken": {
+	"Survival": {
 		"address": "",
 		"constructorArgs": [],
 		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	},
+	"TokenExchange": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [
+			"${GameToken.address}",
+			"${Survival.address}",
+			"${devWallet.address}",
+			"1000",
+			"500000000000000000"
+		],
 		"upgradedAddress": "",
 		"deployed": false,
 		"upgraded": false,

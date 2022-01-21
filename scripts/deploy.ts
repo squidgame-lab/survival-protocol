@@ -1,10 +1,20 @@
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
 import fs from "fs";
 import path from "path";
-
+let chainId = 0;
+let filePath = path.join(__dirname, `.data.json`);
 let data: any = {
-
 };
+
+async function loadConfig() {
+  chainId = await network.provider.send("eth_chainId");
+  chainId = Number(chainId);
+  let _filePath = path.join(__dirname, `.data.${chainId}.json`);
+  if (fs.existsSync(_filePath)) {
+    filePath = _filePath;
+  }
+  console.log('filePath:', filePath);
+}
 
 function updateConstructorArgs(name: string, address: string) {
   for (let k in data) {
@@ -18,7 +28,7 @@ function updateConstructorArgs(name: string, address: string) {
 }
 
 async function before() {
-  let filePath = path.join(__dirname, `.data.json`);
+  await loadConfig();
   if (fs.existsSync(filePath)) {
     let rawdata = fs.readFileSync(filePath);
     data = JSON.parse(rawdata.toString());

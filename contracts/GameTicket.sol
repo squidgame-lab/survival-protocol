@@ -20,24 +20,38 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
     uint public unit;
     uint public total;
     mapping(address => uint) public override tickets;
- 
+    mapping(address => bool) public status;
+    address public gameToken;
+    uint public gameTokenUnit;
+    uint public joinAmount;
+    
+    event Joined(address indexed _user);
     event FeeRateChanged(uint indexed _old, uint indexed _new);
     event RewardPoolChanged(address indexed _old, address indexed _new);
-    event Bought(address indexed from, address indexed to, uint indexed value);
-    
+    event Bought(address indexed _from, address indexed _to, uint buyValue, uint burnValue);
+
     receive() external payable {
     }
 
-    function initialize(address _buyToken, uint _unit) external initializer {
+    function initialize(address _buyToken, address _gameToken, uint _buyTokenUnit, uint _gameTokenUnit, uint _joinAmount) external initializer {
         require(_buyToken != address(0), 'GameTicket: ZERO_ADDRESS');
         owner = msg.sender;
         buyToken = _buyToken;
-        unit = _unit;
+        gameToken = _gameToken;
+        unit = _buyTokenUnit;
+        gameTokenUnit = _gameTokenUnit;
+        joinAmount = _joinAmount;
     }
 
-    function setUnit(uint _unit) external onlyAdmin {
-        require(_unit != unit, 'GameTicket: NO_CHANGE');
-        unit = _unit;
+    function setUnit(uint _buyTokenUnit, uint _gameTokenUnit) external onlyAdmin {
+        require(_buyTokenUnit != unit || _gameTokenUnit != gameTokenUnit, 'GameTicket: NO_CHANGE');
+        unit = _buyTokenUnit;
+        gameTokenUnit = _gameTokenUnit;
+    }
+
+    function setJoinAmount(uint _joinAmount) external onlyAdmin {
+        require(_joinAmount != joinAmount, 'GameTicket: NO_CHANGE');
+        joinAmount = _joinAmount;
     }
 
     function setFeeRate(uint _rate) external onlyAdmin {
@@ -53,12 +67,20 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
         rewardPool = _pool;
     }
 
-    function _buy(uint _value, address _to) internal returns (bool) {
-        require(_value > 0, 'GameTicket: ZERO');
-        require(_value % unit == 0, 'GameTicket: REMAINDER');
-        tickets[_to] = tickets[_to].add(_value);
-        total = total.add(_value);
-        emit Bought(msg.sender, _to, _value);
+    function join() external returns (bool) {
+        require(!status[msg.sender], 'GameTicket: JOINED');
+        TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), joinAmount);
+        status[msg.sender] = true;
+        emit Joined(msg.sender);
+        return true;
+    }
+
+    function _buy(address _to, uint _buyTokenAmount, uint _gameTokenAmount) internal returns (bool) {
+        require(_buyTokenAmount > 0, 'GameTicket: ZERO');
+        require(_buyTokenAmount % unit == 0, 'GameTicket: REMAINDER');
+        tickets[_to] = tickets[_to].add(_buyTokenAmount);
+        total = total.add(_buyTokenAmount);
+        emit Bought(msg.sender, _to, _buyTokenAmount, _gameTokenAmount);
         return true;
     }
 
@@ -69,21 +91,39 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
             require(IERC20(buyToken).balanceOf(msg.sender) >= _value, 'GameTicket: INSUFFICIENT_BALANCE');
             TransferHelper.safeTransferFrom(buyToken, msg.sender, address(this), _value);
         }
-        return _buy(_value, _to);
+
+        uint _gameTokenAmount;
+        if(unit > 0 && gameTokenUnit > 0) {
+            _gameTokenAmount = _value.div(unit).mul(gameTokenUnit);
+            require(IERC20(gameToken).balanceOf(msg.sender) >= _gameTokenAmount, 'GameTicket: GAME_TOKEN_INSUFFICIENT_BALANCE');
+            TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), _gameTokenAmount);
+        }
+        return _buy(_to, _value, _gameTokenAmount);
     }
 
     function buyBatch(uint[] calldata _values, address[] calldata _tos) external payable nonReentrant whenNotPaused returns (bool) {
         require(_values.length == _tos.length, 'GameTicket: INVALID_PARAM');
-        uint _total;
+        uint _buyTokenTotal;
+        uint _gameTokenTotal;
         for(uint i; i<_values.length; i++) {
-            _total = _total.add(_values[i]);
-            _buy(_values[i], _tos[i]);
+            _buyTokenTotal = _buyTokenTotal.add(_values[i]);
+            uint _gameTokenAmount;
+            if(unit > 0 && gameTokenUnit > 0) {
+                _gameTokenAmount = _values[i].div(unit).mul(gameTokenUnit);
+                _gameTokenTotal = _gameTokenTotal.add(_gameTokenAmount);
+            }
+            _buy(_tos[i], _values[i], _gameTokenAmount);
         }
         if (buyToken == address(0)) {
-            require(_total == msg.value, 'GameTicket: INVALID_TOTALVALUE');
+            require(_buyTokenTotal == msg.value, 'GameTicket: INVALID_TOTALVALUE');
         } else {
-            require(IERC20(buyToken).balanceOf(msg.sender) >= _total, 'GameTicket: INSUFFICIENT_BALANCE');
-            TransferHelper.safeTransferFrom(buyToken, msg.sender, address(this), _total);
+            require(IERC20(buyToken).balanceOf(msg.sender) >= _buyTokenTotal, 'GameTicket: INSUFFICIENT_BALANCE');
+            TransferHelper.safeTransferFrom(buyToken, msg.sender, address(this), _buyTokenTotal);
+        }
+
+        if(_gameTokenTotal > 0) {
+            require(IERC20(gameToken).balanceOf(msg.sender) >= _gameTokenTotal, 'GameTicket: GAME_TOKEN_INSUFFICIENT_BALANCE');
+            TransferHelper.safeTransferFrom(gameToken, msg.sender, address(0), _gameTokenTotal);
         }
         return true;
     }

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0;
 
-import './modules/ERC20Token.sol';
-import './modules/Initializable.sol';
+import '../modules/ERC20Token.sol';
+import '../modules/Initializable.sol';
 
 contract TestToken is ERC20Token, Initializable {
     using SafeMath for uint;

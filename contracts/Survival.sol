@@ -4,12 +4,13 @@ pragma solidity >=0.6.0;
 import './modules/ERC20Token.sol';
 import './modules/Initializable.sol';
 
-contract GameToken is ERC20Token, Initializable {
+contract Survival is ERC20Token, Initializable {
     using SafeMath for uint;
     address public owner;
     address public admin;
     address public team;
     uint public teamRate;
+    uint public constant maxTotalSupply = 100_0000_0000;
     mapping (address => uint) public funds;
     
     event OwnerChanged(address indexed _user, address indexed _old, address indexed _new);
@@ -36,8 +37,8 @@ contract GameToken is ERC20Token, Initializable {
 
     function initialize() external initializer {
         decimals = 18;
-        name = 'Squidgame Token';
-        symbol = 'SQT';
+        name = 'survival';
+        symbol = 'surv';
         owner = msg.sender;
         admin = msg.sender;
         team = msg.sender;
@@ -97,6 +98,7 @@ contract GameToken is ERC20Token, Initializable {
     }
 
     function _mint(address to, uint value) internal returns (bool) {
+        value = maxTotalSupply.sub(totalSupply) >= value ? value: maxTotalSupply.sub(totalSupply);
         balanceOf[to] = balanceOf[to].add(value);
         totalSupply = totalSupply.add(value);
         emit Transfer(address(this), to, value);

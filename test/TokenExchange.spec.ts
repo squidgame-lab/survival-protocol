@@ -122,7 +122,7 @@ describe('TokenExchange', async () => {
         it('gas used', async () => {
             let tx = await tokenExchange.connect(other).claim()
             let receipt = await tx.wait()
-            expect(receipt.gasUsed).to.eq(7_9676)
+            expect(receipt.gasUsed).to.eq(8_7107)
         })
     })
 })

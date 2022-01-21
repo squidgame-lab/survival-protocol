@@ -41,7 +41,7 @@ export const tokenExchangeFixture: Fixture<TokenExchangeFixture> = async functio
 
     let survivalFactory = await ethers.getContractFactory('Survival')
     let releaseToken = (await survivalFactory.deploy()) as Survival
-    await releaseToken.initialize();
+    await releaseToken.initialize("survival", "surv", BigNumber.from(18), BigNumber.from('10000000000000000000000000000'));
 
     let tokenExchangeFactory = await ethers.getContractFactory('TokenExchange')
     let tokenExchange = (await tokenExchangeFactory.deploy()) as TokenExchange

@@ -1,19 +1,19 @@
 import { Wallet, BigNumber } from 'ethers'
 import { ethers, waffle } from 'hardhat'
 import { TestToken } from '../typechain/TestToken'
-import { GameTicket2 } from '../typechain/GameTicket2'
-import { GameToken } from '../typechain/GameToken'
+import { Survival } from '../typechain/Survival'
+import { GameTicket } from '../typechain/GameTicket'
 import { expect } from './shared/expect'
-import { bigNumber18 } from './shared/fixtures'
+import { gameTicketFixture, bigNumber18 } from './shared/fixtures'
 
 const createFixtureLoader = waffle.createFixtureLoader
 
-describe('GameTicket2', async () => {
+describe('GameTicket', async () => {
     let wallet: Wallet, other: Wallet;
 
-    let buyToken: TestToken;
-    let gameToken: GameToken;
-    let gameTicket: GameTicket2;
+    let buyToken: TestToken
+    let gameToken: Survival
+    let gameTicket: GameTicket
 
     let loadFixTure: ReturnType<typeof createFixtureLoader>;
 
@@ -23,21 +23,11 @@ describe('GameTicket2', async () => {
     })
 
     beforeEach('deploy GameTicket', async () => {
-        const gameTicketFactory = await ethers.getContractFactory('GameTicket2');
-        const gameTokenFactory = await ethers.getContractFactory('GameToken');
-        const testTokenFactory = await ethers.getContractFactory('TestToken')
-
-        buyToken = (await testTokenFactory.deploy()) as TestToken
-        await buyToken.initialize();
-
-        gameToken = (await gameTokenFactory.deploy()) as GameToken;
-        await gameToken.initialize();
-        await gameToken.increaseFund(wallet.address,ethers.constants.MaxUint256);
-        await gameToken.mint(wallet.address, bigNumber18.mul(10000));
-
-        gameTicket = (await gameTicketFactory.deploy()) as GameTicket2;
-        await gameTicket.initialize(buyToken.address, gameToken.address, bigNumber18, bigNumber18.mul(10), bigNumber18.mul(100));
+        ; ({ buyToken, gameToken, gameTicket } = await loadFixTure(gameTicketFixture));
         await buyToken.mint(wallet.address, bigNumber18.mul(10000));
+
+        await gameToken.increaseFund(wallet.address, bigNumber18.mul(100000000));
+        await gameToken.mint(wallet.address, bigNumber18.mul(10000));;
     })
 
     describe('#join', async () => {
@@ -58,26 +48,31 @@ describe('GameTicket2', async () => {
             await gameToken.approve(gameTicket.address, ethers.constants.MaxUint256);
         })
 
-        it('fails for zero value', async () => {
-            await expect(gameTicket.buy(BigNumber.from(0), wallet.address)).to.revertedWith("GameTicket: ZERO");
-        })
-
-        it('fails for REMAINDER', async () => {
-            await expect(gameTicket.buy(bigNumber18.add(1), wallet.address)).to.revertedWith('GameTicket: REMAINDER');
-        })
-
         it('fails for INSUFFICIENT_BALANCE', async () => {
-            await expect(gameTicket.connect(other).buy(bigNumber18, other.address)).to.revertedWith('GameTicket: INSUFFICIENT_BALANCE');
+            await expect(gameTicket.connect(other).buy(other.address, BigNumber.from(10))).to.revertedWith('GameTicket: INSUFFICIENT_BALANCE');
         })
 
-        it('success for buy', async () => {
-            await gameTicket.buy(bigNumber18.mul(2), wallet.address);
-            expect(await gameTicket.tickets(wallet.address)).to.eq(bigNumber18.mul(2));
-            expect(await gameTicket.total()).to.eq(bigNumber18.mul(2));
+        it('success for buy with buyToken and gameToken', async () => {
+            let ticketAmount = BigNumber.from(2)
+            await gameTicket.buy(wallet.address, ticketAmount);
+            expect(await gameTicket.tickets(wallet.address)).to.eq(ticketAmount);
+            expect(await gameTicket.total()).to.eq(ticketAmount);
+        })
+
+        it('success for buy with gameToken', async () => {
+            await gameTicket.setUnit(BigNumber.from(0), bigNumber18.mul(10))
+            let ticketAmount = BigNumber.from(2)
+            let gameTokenBalanceBefore = await gameToken.balanceOf(wallet.address)
+            await gameTicket.buy(wallet.address, ticketAmount);
+            let gameTokenBalanceAfter = await gameToken.balanceOf(wallet.address)
+            expect(gameTokenBalanceBefore.sub(gameTokenBalanceAfter)).to.eq(bigNumber18.mul(20))
+            expect(await gameTicket.tickets(wallet.address)).to.eq(ticketAmount);
+            expect(await gameTicket.total()).to.eq(ticketAmount);
         })
 
         it('success for buy event', async () => {
-            expect(await gameTicket.buy(bigNumber18.mul(2), wallet.address)).to.emit(gameTicket, 'Bought').withArgs(wallet.address, wallet.address, bigNumber18.mul(2), bigNumber18.mul(20));
+            let ticketAmount = BigNumber.from(2)
+            expect(await gameTicket.buy(wallet.address, ticketAmount)).to.emit(gameTicket, 'Bought').withArgs(wallet.address, wallet.address, ticketAmount);
         })
     })
 
@@ -98,10 +93,10 @@ describe('GameTicket2', async () => {
                 await buyToken.approve(gameTicket.address, ethers.constants.MaxUint256);
                 await gameToken.approve(gameTicket.address, ethers.constants.MaxUint256);
             })
-    
+
             beforeEach('buy', async () => {
                 await gameTicket.setRewardPool(wallet.address);
-                await gameTicket.buy(bigNumber18.mul(2), wallet.address);
+                await gameTicket.buy(wallet.address, BigNumber.from(2));
             })
 
             it('success for zero fee', async () => {

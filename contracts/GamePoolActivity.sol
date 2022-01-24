@@ -134,7 +134,7 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
 
     function uploadOne(PlayData memory data) public onlyUploader {
         uint16 _totalScore = data.score + data.score1 + data.score2 + data.score3;
-        require(_totalScore <= userMaxScore && _totalScore, 'score overflow');
+        require(_totalScore <= userMaxScore && _totalScore <= data.ticketAmount, 'score overflow');
         uint128 orderId = userRoundOrderMap[data.user][totalRound];
         bool exist;
         if(orderId > 0 || (orderId == 0 && totalRound == 0 && userOrders[data.user].length > 0)) {

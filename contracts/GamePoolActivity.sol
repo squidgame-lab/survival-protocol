@@ -37,10 +37,10 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     struct RoundData {
         uint128 ticketTotal;
         uint128 rewardTotal;
+        uint128 strategySn;
         uint64 startTime;
         uint64 releaseBlockStart;
         uint64 releaseBlockEnd;
-        address winner;
     }
 
     struct Order {
@@ -69,7 +69,16 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         uint128 claimShareAvaliable;
     }
 
+    struct Rate {
+        uint128 score;
+        uint128 score1;
+        uint128 score2;
+        uint128 score3;
+    }
+
     Order[] public orders;
+    uint128 public totalStrategy;
+    mapping (uint128 => Rate) public strategies;
     mapping (uint64 => RoundData) public historys;
     mapping (address => uint128[]) public userOrders;
     mapping (uint128 => uint128[]) public roundOrders;
@@ -77,7 +86,6 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     bool public enableRoundOrder;
     uint128 public feeRate;
     uint128 public ticketTotal;
-    uint public rewardAmount;
 
     event NewRound(uint128 indexed value);
     event Claimed(address indexed user, uint128 indexed orderId, uint128 winAmount, uint128 shareAmount);
@@ -90,7 +98,7 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         owner = msg.sender;
     }
 
-    function configure(address _rewardSource, address _shareToken, address _nextPool, uint64 _epoch, uint64 _shareReleaseEpoch, bool _isFromTicket, bool _enableRoundOrder, uint _rewardAmount) external onlyDev {
+    function configure(address _rewardSource, address _shareToken, address _nextPool, uint64 _epoch, uint64 _shareReleaseEpoch, bool _isFromTicket, bool _enableRoundOrder) external onlyDev {
         rewardSource = _rewardSource;
         buyToken = IRewardSource(_rewardSource).buyToken();
         shareToken = _shareToken;
@@ -99,7 +107,6 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         shareReleaseEpoch = _shareReleaseEpoch;
         isFromTicket = _isFromTicket;
         enableRoundOrder = _enableRoundOrder;
-        rewardAmount = _rewardAmount;
     }
 
     function setEpoch(uint64 _epoch, uint64 _shareReleaseEpoch) external onlyManager {
@@ -120,13 +127,14 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         userMaxScore = _userMaxScore;
     }
 
-    function setRewardAmount(uint _amount) external onlyManager {
-        rewardAmount = _amount;
+    function setRate(Rate memory _values) external onlyManager {
+        totalStrategy++;
+        strategies[totalStrategy] = _values;
     }
 
     function uploadOne(PlayData memory data) public onlyUploader {
         uint16 _totalScore = data.score + data.score1 + data.score2 + data.score3;
-        require(_totalScore <= data.ticketAmount && _totalScore <= userMaxScore, 'score over ticket');
+        require(_totalScore <= userMaxScore && _totalScore, 'score overflow');
         uint128 orderId = userRoundOrderMap[data.user][totalRound];
         bool exist;
         if(orderId > 0 || (orderId == 0 && totalRound == 0 && userOrders[data.user].length > 0)) {
@@ -192,13 +200,12 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         }
     }
  
-    function uploaded(uint64 _startTime, uint128 _ticketTotal, uint128 _orderId) external onlyUploader {
+    function uploaded(uint64 _startTime, uint128 _ticketTotal) public onlyUploader {
         require(_ticketTotal > 0, 'ticketTotal zero');
         require(ticketTotal == _ticketTotal, 'invalid ticketTotal');
         require(block.timestamp > _startTime, 'invalid start time');
         require(epoch > 0, 'epoch zero');
         require(block.number <= type(uint64).max, 'stop');
-        require(orders[_orderId].user != address(0), 'invalid winner address');
         
         if(totalRound > 0) {
             RoundData memory last = historys[totalRound-1];
@@ -211,9 +218,9 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
 
         currentRound.startTime = _startTime;
         currentRound.ticketTotal = _ticketTotal;
+        currentRound.strategySn = totalStrategy;
         currentRound.releaseBlockStart = uint64(block.number);
         currentRound.releaseBlockEnd = currentRound.releaseBlockStart + shareReleaseEpoch;
-        currentRound.winner = orders[_orderId].user;
 
         uint rewardAmount = IRewardSource(rewardSource).getBalance();
         uint128 reward;
@@ -226,6 +233,18 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         ticketTotal = 0;
         emit NewRound(totalRound); 
         totalRound++;
+    }
+
+    function uploadOneAndUploaded(uint64 _startTime, address _user, uint128 _ticketAmount) external onlyUploader {
+        uploadOne(PlayData({
+            user: _user,
+            ticketAmount: _ticketAmount,
+            score: 1,
+            score1: 0,
+            score2: 0,
+            score3: 0
+        }));
+        uploaded(_startTime, _ticketAmount);
     }
 
     function canClaim(uint128 _orderId) public view returns (bool) {
@@ -369,27 +388,22 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     function getOrderResult(uint128 _orderId) public view returns (OrderResult memory) {
         Order memory order = orders[_orderId];
         RoundData memory round = historys[order.roundNumber];
+        Rate memory rate = strategies[round.strategySn];
 
-        uint128 claimShareAmount;
-        uint128 claimShareAvaliable;
-
-        if (order.user == round.winner) {
-            claimShareAmount = uint128(rewardAmount);
-
-            uint128 canClaimShareAmount;
-            if(shareReleaseEpoch == 0 || round.releaseBlockEnd == 0) {
-                canClaimShareAmount = claimShareAmount;
-            } else {
-                uint128 totalDue = uint128(round.releaseBlockEnd - round.releaseBlockStart);
-                uint128 passedDue = uint128(block.number - round.releaseBlockStart);
-                if(passedDue > totalDue) {
-                    passedDue = totalDue;
-                }
-                canClaimShareAmount = SafeMath128.mulAndDiv(claimShareAmount, passedDue, totalDue); 
+        uint128 claimShareAmount = uint128(order.score) * rate.score + uint128(order.score1) * rate.score1 + uint128(order.score2) * rate.score2 + uint128(order.score3) * rate.score3;
+        uint128 canClaimShareAmount;
+        if(shareReleaseEpoch == 0 || round.releaseBlockEnd == 0) {
+            canClaimShareAmount = claimShareAmount;
+        } else {
+            uint128 totalDue = uint128(round.releaseBlockEnd - round.releaseBlockStart);
+            uint128 passedDue = uint128(block.number - round.releaseBlockStart);
+            if(passedDue > totalDue) {
+                passedDue = totalDue;
             }
+            canClaimShareAmount = SafeMath128.mulAndDiv(claimShareAmount, passedDue, totalDue); 
+        }
 
-            claimShareAvaliable = canClaimShareAmount.sub(order.claimedShareAmount);
-        } 
+        uint128 claimShareAvaliable = canClaimShareAmount.sub(order.claimedShareAmount);
         
         OrderResult memory result = OrderResult({
             orderId: _orderId,
@@ -406,6 +420,10 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
             claimShareAvaliable: claimShareAvaliable
         });
         return result;
+    }
+
+    function getRate(uint128 _strategySn) external view returns (Rate memory) {
+        return strategies[_strategySn];
     }
 
     function getBuyTokenBalance(uint128 _amount) public view returns (uint128) {

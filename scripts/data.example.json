@@ -59,12 +59,24 @@
 		"address": "",
 		"constructorArgs": [],
 		"upgradeArgs": [
-			"${TestToken.address}",
-			"1000000000000000000"
+		  "${USDT.address}",
+		  "${Survival.address}",
+		  "100000000000000000",
+		  "0",
+		  "0"
 		],
 		"upgradedAddress": "",
-		"deployed": false,
-		"upgraded": false,
+		"deployed": true,
+		"upgraded": true,
 		"verified": false
-	}
+	  },
+	  "GamePoolActivity": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [],
+		"upgradedAddress": "",
+		"deployed": true,
+		"upgraded": true,
+		"verified": false
+	  }
 }

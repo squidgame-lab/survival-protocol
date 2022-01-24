@@ -10,5 +10,5 @@ interface IGameTicket {
     function tickets(address) external view returns (uint);
     function status(address) external view returns (bool);
 
-    function buy(uint _value, address _to) external returns (bool);
+    function buy(address _to, uint _amount) external returns (bool);
 }

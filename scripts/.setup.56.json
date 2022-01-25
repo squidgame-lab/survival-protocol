@@ -1,0 +1,97 @@
+[
+    {
+        "call": true,
+        "called": false,
+        "name": "Survival",
+        "functionName": "increaseFunds",
+        "contractName": "Survival",
+        "contractAddr": "",
+        "args": [
+            ["${devWallet.address}", "${TokenExchange.address}", "${GamePoolActivity.address}"],
+            ["100000000000000000000000000", "100000000000000000000000000", "100000000000000000000000000"]
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GameConfig",
+        "functionName": "changeUploader",
+        "contractName": "GameConfig",
+        "contractAddr": "",
+        "args": [
+            ""
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GameTicket",
+        "functionName": "setupConfig",
+        "contractName": "GameTicket",
+        "contractAddr": "",
+        "args": [
+            "${GameConfig.address}"
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GameTicket",
+        "functionName": "setRewardPool",
+        "contractName": "GameTicket",
+        "contractAddr": "",
+        "args": [
+            "${devWallet.address}"
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GamePoolActivity",
+        "functionName": "setupConfig",
+        "contractName": "GamePoolActivity",
+        "contractAddr": "",
+        "args": [
+            "${GameConfig.address}"
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GamePoolActivity",
+        "functionName": "configure",
+        "contractName": "GamePoolActivity",
+        "contractAddr": "",
+        "args": [
+            "${GameTicket.address}",
+            "${Survival.address}",
+            "0x0000000000000000000000000000000000000000",
+            "28800",
+            "0",
+            true,
+            true
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GamePoolActivity",
+        "functionName": "setUserMaxScore",
+        "contractName": "GamePoolActivity",
+        "contractAddr": "",
+        "args": [
+            "1000"
+        ]
+    },
+    {
+        "call": true,
+        "called": false,
+        "name": "GamePoolActivity",
+        "functionName": "setRate",
+        "contractName": "GamePoolActivity",
+        "contractAddr": "",
+        "args": [
+            ["10000000000000000000000", "0", "0", "0"]
+        ]
+    }
+]

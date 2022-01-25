@@ -8,14 +8,23 @@
     "upgraded": true,
     "verified": true
   },
-  "GameToken": {
-    "address": "",
+  "USDT": {
+    "address": "0x55d398326f99059fF775485246999027B3197955",
     "constructorArgs": [],
     "upgradeArgs": [],
     "upgradedAddress": "",
     "deployed": true,
     "upgraded": true,
-    "verified": false
+    "verified": true
+  },
+  "GameToken": {
+    "address": "0xD9124604B5dC6EEC0e75d5B02f1610C7bA734cC1",
+    "constructorArgs": [],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
   },
   "Survival": {
     "address": "0x1180C484f55024C5Ce1765101f4efaC1e7A3F6d4",
@@ -30,5 +39,53 @@
     "deployed": true,
     "upgraded": true,
     "verified": true
+  },
+  "TokenExchange": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [
+      "${GameToken.address}",
+      "${Survival.address}",
+      "${devWallet.address}",
+      "864000",
+      "1000000000000000000"
+    ],
+    "upgradedAddress": "",
+    "deployed": false,
+    "upgraded": false,
+    "verified": false
+  },
+  "GameConfig": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": false,
+    "upgraded": false,
+    "verified": false
+  },
+  "GameTicket": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [
+      "${USDT.address}",
+      "${Survival.address}",
+      "50000000000000000000",
+      "0",
+      "0"
+    ],
+    "upgradedAddress": "",
+    "deployed": false,
+    "upgraded": false,
+    "verified": false
+  },
+  "GamePoolActivity": {
+    "address": "",
+    "constructorArgs": [],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": false,
+    "upgraded": false,
+    "verified": false
   }
 }

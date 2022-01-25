@@ -129,7 +129,7 @@ contract GameTicket is IRewardSource, Configable, Pausable, ReentrancyGuard, Ini
     }
 
     function withdraw(uint _value) external virtual override nonReentrant whenNotPaused returns (uint reward, uint fee) {
-        require(msg.sender == rewardPool, 'GameTicket: FORBIDDEN');
+        if(msg.sender != rewardPool) return(0,0);
         require(_value > 0, 'GameTicket: ZERO');
         require(getBalance() >= _value, 'GameTicket: INSUFFICIENT_BALANCE');
 

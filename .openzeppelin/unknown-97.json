@@ -810,6 +810,750 @@
           }
         }
       }
+    },
+    "463e4a9e80160e9fd1a36eaf1cfa7dbb1745afe16808a0836e0d5b17bb41e031": {
+      "address": "0x3Ac77f40aB203FB11E46B2fa9647F01142A952eE",
+      "txHash": "0xa6a3903056878ce25f258a97c11ebf95ca2c12e084160d7e6ac2ca166badbdea",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Configable",
+            "label": "config",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:12"
+          },
+          {
+            "contract": "Configable",
+            "label": "owner",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:13"
+          },
+          {
+            "contract": "Pausable",
+            "label": "_paused",
+            "type": "t_bool",
+            "src": "contracts/modules/Pausable.sol:24"
+          },
+          {
+            "contract": "ReentrancyGuard",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "contracts/modules/ReentrancyGuard.sol:36"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:23"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:28"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts/modules/Initializable.sol:63"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "rewardSource",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:17"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "buyToken",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:18"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "shareToken",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:19"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "nextPool",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:20"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "epoch",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:21"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "totalRound",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:22"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "shareReleaseEpoch",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:23"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "tickets",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/GamePoolActivity.sol:24"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "isFromTicket",
+            "type": "t_bool",
+            "src": "contracts/GamePoolActivity.sol:25"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userMaxScore",
+            "type": "t_uint16",
+            "src": "contracts/GamePoolActivity.sol:26"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "orders",
+            "type": "t_array(t_struct(Order)388_storage)dyn_storage",
+            "src": "contracts/GamePoolActivity.sol:79"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "totalStrategy",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:80"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "strategies",
+            "type": "t_mapping(t_uint128,t_struct(Rate)422_storage)",
+            "src": "contracts/GamePoolActivity.sol:81"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "historys",
+            "type": "t_mapping(t_uint64,t_struct(RoundData)371_storage)",
+            "src": "contracts/GamePoolActivity.sol:82"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userOrders",
+            "type": "t_mapping(t_address,t_array(t_uint128)dyn_storage)",
+            "src": "contracts/GamePoolActivity.sol:83"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "roundOrders",
+            "type": "t_mapping(t_uint128,t_array(t_uint128)dyn_storage)",
+            "src": "contracts/GamePoolActivity.sol:84"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userRoundOrderMap",
+            "type": "t_mapping(t_address,t_mapping(t_uint128,t_uint128))",
+            "src": "contracts/GamePoolActivity.sol:85"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "enableRoundOrder",
+            "type": "t_bool",
+            "src": "contracts/GamePoolActivity.sol:86"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "feeRate",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:87"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "ticketTotal",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:88"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_struct(Order)388_storage)dyn_storage": {
+            "label": "struct GamePoolActivity.Order[]"
+          },
+          "t_struct(Order)388_storage": {
+            "label": "struct GamePoolActivity.Order",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "roundNumber",
+                "type": "t_uint64"
+              },
+              {
+                "label": "ticketAmount",
+                "type": "t_uint128"
+              },
+              {
+                "label": "claimedShareAmount",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score1",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score2",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score3",
+                "type": "t_uint16"
+              }
+            ]
+          },
+          "t_uint128": {
+            "label": "uint128"
+          },
+          "t_mapping(t_uint128,t_struct(Rate)422_storage)": {
+            "label": "mapping(uint128 => struct GamePoolActivity.Rate)"
+          },
+          "t_struct(Rate)422_storage": {
+            "label": "struct GamePoolActivity.Rate",
+            "members": [
+              {
+                "label": "score",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score1",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score2",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score3",
+                "type": "t_uint128"
+              }
+            ]
+          },
+          "t_mapping(t_uint64,t_struct(RoundData)371_storage)": {
+            "label": "mapping(uint64 => struct GamePoolActivity.RoundData)"
+          },
+          "t_struct(RoundData)371_storage": {
+            "label": "struct GamePoolActivity.RoundData",
+            "members": [
+              {
+                "label": "ticketTotal",
+                "type": "t_uint128"
+              },
+              {
+                "label": "rewardTotal",
+                "type": "t_uint128"
+              },
+              {
+                "label": "strategySn",
+                "type": "t_uint128"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint64"
+              },
+              {
+                "label": "releaseBlockStart",
+                "type": "t_uint64"
+              },
+              {
+                "label": "releaseBlockEnd",
+                "type": "t_uint64"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_array(t_uint128)dyn_storage)": {
+            "label": "mapping(address => uint128[])"
+          },
+          "t_array(t_uint128)dyn_storage": {
+            "label": "uint128[]"
+          },
+          "t_mapping(t_uint128,t_array(t_uint128)dyn_storage)": {
+            "label": "mapping(uint128 => uint128[])"
+          },
+          "t_mapping(t_address,t_mapping(t_uint128,t_uint128))": {
+            "label": "mapping(address => mapping(uint128 => uint128))"
+          },
+          "t_mapping(t_uint128,t_uint128)": {
+            "label": "mapping(uint128 => uint128)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "b402c646171b211cebf50233411af3aa30050a518208a0cac9282f837709f77b": {
+      "address": "0x2855d12B38625c5B08840CD8cF8Ba9222d0c8c9c",
+      "txHash": "0x88469d8c899c2d9739f74d74f3f770220d378e4cfcc92b5f218820e39cd692c7",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Configable",
+            "label": "config",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:12"
+          },
+          {
+            "contract": "Configable",
+            "label": "owner",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:13"
+          },
+          {
+            "contract": "Pausable",
+            "label": "_paused",
+            "type": "t_bool",
+            "src": "contracts/modules/Pausable.sol:24"
+          },
+          {
+            "contract": "ReentrancyGuard",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "contracts/modules/ReentrancyGuard.sol:36"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:23"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:28"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts/modules/Initializable.sol:63"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "rewardSource",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:17"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "buyToken",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:18"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "shareToken",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:19"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "nextPool",
+            "type": "t_address",
+            "src": "contracts/GamePoolActivity.sol:20"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "epoch",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:21"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "totalRound",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:22"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "shareReleaseEpoch",
+            "type": "t_uint64",
+            "src": "contracts/GamePoolActivity.sol:23"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "tickets",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/GamePoolActivity.sol:24"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "isFromTicket",
+            "type": "t_bool",
+            "src": "contracts/GamePoolActivity.sol:25"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userMaxScore",
+            "type": "t_uint16",
+            "src": "contracts/GamePoolActivity.sol:26"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "orders",
+            "type": "t_array(t_struct(Order)388_storage)dyn_storage",
+            "src": "contracts/GamePoolActivity.sol:79"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "totalStrategy",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:80"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "strategies",
+            "type": "t_mapping(t_uint128,t_struct(Rate)422_storage)",
+            "src": "contracts/GamePoolActivity.sol:81"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "historys",
+            "type": "t_mapping(t_uint64,t_struct(RoundData)371_storage)",
+            "src": "contracts/GamePoolActivity.sol:82"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userOrders",
+            "type": "t_mapping(t_address,t_array(t_uint128)dyn_storage)",
+            "src": "contracts/GamePoolActivity.sol:83"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "roundOrders",
+            "type": "t_mapping(t_uint128,t_array(t_uint128)dyn_storage)",
+            "src": "contracts/GamePoolActivity.sol:84"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "userRoundOrderMap",
+            "type": "t_mapping(t_address,t_mapping(t_uint128,t_uint128))",
+            "src": "contracts/GamePoolActivity.sol:85"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "enableRoundOrder",
+            "type": "t_bool",
+            "src": "contracts/GamePoolActivity.sol:86"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "feeRate",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:87"
+          },
+          {
+            "contract": "GamePoolActivity",
+            "label": "ticketTotal",
+            "type": "t_uint128",
+            "src": "contracts/GamePoolActivity.sol:88"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_uint16": {
+            "label": "uint16"
+          },
+          "t_array(t_struct(Order)388_storage)dyn_storage": {
+            "label": "struct GamePoolActivity.Order[]"
+          },
+          "t_struct(Order)388_storage": {
+            "label": "struct GamePoolActivity.Order",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "roundNumber",
+                "type": "t_uint64"
+              },
+              {
+                "label": "ticketAmount",
+                "type": "t_uint128"
+              },
+              {
+                "label": "claimedShareAmount",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score1",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score2",
+                "type": "t_uint16"
+              },
+              {
+                "label": "score3",
+                "type": "t_uint16"
+              }
+            ]
+          },
+          "t_uint128": {
+            "label": "uint128"
+          },
+          "t_mapping(t_uint128,t_struct(Rate)422_storage)": {
+            "label": "mapping(uint128 => struct GamePoolActivity.Rate)"
+          },
+          "t_struct(Rate)422_storage": {
+            "label": "struct GamePoolActivity.Rate",
+            "members": [
+              {
+                "label": "score",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score1",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score2",
+                "type": "t_uint128"
+              },
+              {
+                "label": "score3",
+                "type": "t_uint128"
+              }
+            ]
+          },
+          "t_mapping(t_uint64,t_struct(RoundData)371_storage)": {
+            "label": "mapping(uint64 => struct GamePoolActivity.RoundData)"
+          },
+          "t_struct(RoundData)371_storage": {
+            "label": "struct GamePoolActivity.RoundData",
+            "members": [
+              {
+                "label": "ticketTotal",
+                "type": "t_uint128"
+              },
+              {
+                "label": "rewardTotal",
+                "type": "t_uint128"
+              },
+              {
+                "label": "strategySn",
+                "type": "t_uint128"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint64"
+              },
+              {
+                "label": "releaseBlockStart",
+                "type": "t_uint64"
+              },
+              {
+                "label": "releaseBlockEnd",
+                "type": "t_uint64"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_array(t_uint128)dyn_storage)": {
+            "label": "mapping(address => uint128[])"
+          },
+          "t_array(t_uint128)dyn_storage": {
+            "label": "uint128[]"
+          },
+          "t_mapping(t_uint128,t_array(t_uint128)dyn_storage)": {
+            "label": "mapping(uint128 => uint128[])"
+          },
+          "t_mapping(t_address,t_mapping(t_uint128,t_uint128))": {
+            "label": "mapping(address => mapping(uint128 => uint128))"
+          },
+          "t_mapping(t_uint128,t_uint128)": {
+            "label": "mapping(uint128 => uint128)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "e09754a5fd2039ba35de667e47a203eef84f85e873d4dc37541b5af3fa0d1f0b": {
+      "address": "0x6104D04970eD0Da38213F2C31DA8734aC417BaA2",
+      "txHash": "0xec3da3b03178a959d09d875aac2472cc894cd829b667faa9160eadc62d2eda32",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Configable",
+            "label": "config",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:12"
+          },
+          {
+            "contract": "Configable",
+            "label": "owner",
+            "type": "t_address",
+            "src": "contracts/modules/Configable.sol:13"
+          },
+          {
+            "contract": "Pausable",
+            "label": "_paused",
+            "type": "t_bool",
+            "src": "contracts/modules/Pausable.sol:24"
+          },
+          {
+            "contract": "ReentrancyGuard",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "contracts/modules/ReentrancyGuard.sol:36"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initialized",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:23"
+          },
+          {
+            "contract": "Initializable",
+            "label": "initializing",
+            "type": "t_bool",
+            "src": "contracts/modules/Initializable.sol:28"
+          },
+          {
+            "contract": "Initializable",
+            "label": "______gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "contracts/modules/Initializable.sol:63"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "buyToken",
+            "type": "t_address",
+            "src": "contracts/GameTicket.sol:17"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "rewardPool",
+            "type": "t_address",
+            "src": "contracts/GameTicket.sol:18"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "feeRate",
+            "type": "t_uint256",
+            "src": "contracts/GameTicket.sol:19"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "unit",
+            "type": "t_uint256",
+            "src": "contracts/GameTicket.sol:20"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "total",
+            "type": "t_uint256",
+            "src": "contracts/GameTicket.sol:21"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "tickets",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts/GameTicket.sol:22"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "status",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "contracts/GameTicket.sol:23"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "gameToken",
+            "type": "t_address",
+            "src": "contracts/GameTicket.sol:24"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "gameTokenUnit",
+            "type": "t_uint256",
+            "src": "contracts/GameTicket.sol:25"
+          },
+          {
+            "contract": "GameTicket",
+            "label": "joinAmount",
+            "type": "t_uint256",
+            "src": "contracts/GameTicket.sol:26"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
     }
   }
 }

@@ -132,7 +132,7 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         strategies[totalStrategy] = _values;
     }
 
-    function uploadOne(PlayData memory data) public onlyUploader {
+    function uploadOne(PlayData memory data) public onlyManager {
         uint16 _totalScore = data.score + data.score1 + data.score2 + data.score3;
         require(_totalScore <= userMaxScore && _totalScore <= data.ticketAmount, 'score overflow');
         uint128 orderId = userRoundOrderMap[data.user][totalRound];
@@ -194,13 +194,13 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
         }
     }
 
-    function uploadBatch(PlayData[] calldata datas) external onlyUploader {
+    function uploadBatch(PlayData[] calldata datas) external onlyManager {
         for(uint128 i; i < datas.length; i++) {
             uploadOne(datas[i]);
         }
     }
  
-    function uploaded(uint64 _startTime, uint128 _ticketTotal) public onlyUploader {
+    function uploaded(uint64 _startTime, uint128 _ticketTotal) public onlyManager {
         require(_ticketTotal > 0, 'ticketTotal zero');
         require(ticketTotal == _ticketTotal, 'invalid ticketTotal');
         require(block.timestamp > _startTime, 'invalid start time');

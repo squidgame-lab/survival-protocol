@@ -133,6 +133,10 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     }
 
     function uploadOne(PlayData memory data) public onlyManager {
+        _uploadOne(data);
+    }
+
+    function _uploadOne(PlayData memory data) internal {
         uint16 _totalScore = data.score + data.score1 + data.score2 + data.score3;
         require(_totalScore <= userMaxScore && _totalScore <= data.ticketAmount, 'score overflow');
         uint128 orderId = userRoundOrderMap[data.user][totalRound];
@@ -201,6 +205,10 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     }
  
     function uploaded(uint64 _startTime, uint128 _ticketTotal) public onlyManager {
+        _uploaded(_startTime, _ticketTotal);
+    }
+ 
+    function _uploaded(uint64 _startTime, uint128 _ticketTotal) internal {
         require(_ticketTotal > 0, 'ticketTotal zero');
         require(ticketTotal == _ticketTotal, 'invalid ticketTotal');
         require(block.timestamp > _startTime, 'invalid start time');
@@ -236,7 +244,7 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
     }
 
     function uploadOneAndUploaded(uint64 _startTime, address _user, uint128 _ticketAmount) external onlyUploader {
-        uploadOne(PlayData({
+        _uploadOne(PlayData({
             user: _user,
             ticketAmount: _ticketAmount,
             score: 1,
@@ -244,7 +252,7 @@ contract GamePoolActivity is IRewardSource, Configable, Pausable, ReentrancyGuar
             score2: 0,
             score3: 0
         }));
-        uploaded(_startTime, _ticketAmount);
+        _uploaded(_startTime, _ticketAmount);
     }
 
     function canClaim(uint128 _orderId) public view returns (bool) {

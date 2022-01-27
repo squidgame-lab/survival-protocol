@@ -63,7 +63,7 @@
             "${GameTicket.address}",
             "${Survival.address}",
             "0x0000000000000000000000000000000000000000",
-            "28800",
+            "60",
             "0",
             true,
             true

@@ -83,9 +83,128 @@
     "address": "0x482dB6e5a3642F0D642B4A338930d4590a5D4C24",
     "constructorArgs": [],
     "upgradeArgs": [],
+    "upgradedAddress": "0x6423F0bfaebeE5dE7CeFD12E616d38067ce7eb84",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
+  "GameTickets": {
+		"address": "",
+		"constructorArgs": [],
+		"upgradeArgs": [
+		  "${USDT.address}",
+		  "${Survival.address}",
+		  "0",
+		  "0"
+		],
+		"upgradedAddress": "",
+		"deployed": false,
+		"upgraded": false,
+		"verified": false
+	},
+  "GameCompetitorTicket": {
+    "onlyDeploy": true,
+    "contractName": "GameCompetitorTicket",
+    "address": "0xF097A6A1f78d20e22f415D095110AD1736eE7cA5",
+    "constructorArgs": [
+      "456",
+      "257",
+      "25183704",
+      "https://file.squidgame.live/cometitorTicket/",
+      ".jpeg",
+      "Squidgame Competitor Ticket NFT",
+      "SCTNFT"
+    ],
+    "upgradeArgs": [],
     "upgradedAddress": "",
     "deployed": true,
     "upgraded": true,
     "verified": false
+  },
+  "GameNFTHat": {
+    "onlyDeploy": true,
+    "contractName": "GameNFT",
+    "address": "0x4FF3A0ec3d6ccA1dd1f05C12Cb9C7956b19a74a3",
+    "constructorArgs": [
+      "Hat",
+      "STH",
+      "100",
+      "https://file.squidgame.live/hat/",
+      ".svg"
+    ],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
+  "GameNFTBracelet": {
+    "onlyDeploy": true,
+    "contractName": "GameNFT",
+    "address": "0x3aFC5b48a818907c33Ed71471B381Ba70eE30E2e",
+    "constructorArgs": [
+      "Bracelet",
+      "STB",
+      "400",
+      "https://file.squidgame.live/bracelet/",
+      ".svg"
+    ],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
+  "GameNFTAvator": {
+    "onlyDeploy": true,
+    "contractName": "GameBetTicket",
+    "address": "0x18f7a3862fbAEe5F010770D813839622cBc1F2D1",
+    "constructorArgs": [
+      "Avator",
+      "STAP1",
+      "1",
+      "456",
+      "https://file.squidgame.live/role/",
+      ".svg"
+    ],
+    "upgradeArgs": [],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
+  "GameNFTMarket": {
+    "onlyDeploy": false,
+    "contractName": "GameNFTMarket",
+    "address": "0xF3dba14E8340375ceCE103E6e2361199D4A8Ba5D",
+    "constructorArgs": [],
+    "upgradeArgs": [
+      "0xd8e6fcd9651E26c0f781A4F1B9DA9400CA8b32Aa",
+      "0xde51312CdF679e042B41dC8dd5F00984d0f5bbE2",
+      "200"
+    ],
+    "upgradedAddress": "",
+    "deployed": true,
+    "upgraded": true,
+    "verified": false
+  },
+  "GameCompetitorTicket2": {
+    "onlyDeploy": true,
+    "contractName": "GameCompetitorTicket",
+    "address": "0x145425197a9bA04CFd5E1BF3Ef230AC825cC5C25",
+    "constructorArgs": [
+      "456",
+      "257",
+      "25183704",
+      "https://file.squidgame.live/competitorTicket2/",
+      ".jpeg",
+      "SurvivalGameOnline Competitor S2 Ticket NFT",
+      "SCS2TNFT"
+    ],
+    "upgradeArgs": [],
+    "upgradedAddress": "0x145425197a9bA04CFd5E1BF3Ef230AC825cC5C25",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
   }
 }

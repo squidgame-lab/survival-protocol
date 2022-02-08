@@ -95,7 +95,7 @@
 		  "${USDT.address}",
 		  "${Survival.address}",
 		  "0",
-		  "0"
+		  "10000000000000000000"
 		],
 		"upgradedAddress": "",
 		"deployed": false,

@@ -111,6 +111,18 @@
         "call": true,
         "called": true,
         "name": "GameTickets",
+        "functionName": "setUnit",
+        "contractName": "GameTickets",
+        "contractAddr": "",
+        "args": [
+            "0",
+            "10000000000000000000"
+        ]
+    },
+    {
+        "call": true,
+        "called": true,
+        "name": "GameTickets",
         "functionName": "setJoinAmountBatch",
         "contractName": "GameTickets",
         "contractAddr": "",

@@ -89,19 +89,19 @@
     "verified": true
   },
   "GameTickets": {
-		"address": "",
-		"constructorArgs": [],
-		"upgradeArgs": [
-		  "${USDT.address}",
-		  "${Survival.address}",
-		  "0",
-		  "10000000000000000000"
-		],
-		"upgradedAddress": "",
-		"deployed": false,
-		"upgraded": false,
-		"verified": false
-	},
+    "address": "0xBd619216F7Eaa22dF818620f3e3B1eB3e5bC37F9",
+    "constructorArgs": [],
+    "upgradeArgs": [
+      "${USDT.address}",
+      "${Survival.address}",
+      "0",
+      "10000000000000000000"
+    ],
+    "upgradedAddress": "0xad933a012fBD0E43204567990Aff37fa5274b973",
+    "deployed": true,
+    "upgraded": true,
+    "verified": true
+  },
   "GameCompetitorTicket": {
     "onlyDeploy": true,
     "contractName": "GameCompetitorTicket",
@@ -119,7 +119,7 @@
     "upgradedAddress": "",
     "deployed": true,
     "upgraded": true,
-    "verified": false
+    "verified": true
   },
   "GameNFTHat": {
     "onlyDeploy": true,
@@ -186,7 +186,7 @@
     "upgradedAddress": "",
     "deployed": true,
     "upgraded": true,
-    "verified": false
+    "verified": true
   },
   "GameCompetitorTicket2": {
     "onlyDeploy": true,

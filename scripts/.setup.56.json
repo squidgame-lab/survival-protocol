@@ -53,6 +53,17 @@
     {
         "call": true,
         "called": true,
+        "name": "GameTickets",
+        "functionName": "setupConfig",
+        "contractName": "GameTickets",
+        "contractAddr": "",
+        "args": [
+            "${GameConfig.address}"
+        ]
+    },
+    {
+        "call": true,
+        "called": true,
         "name": "GamePoolActivity",
         "functionName": "setupConfig",
         "contractName": "GamePoolActivity",
